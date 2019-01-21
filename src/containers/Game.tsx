@@ -24,7 +24,7 @@ export default class Game extends Component<Props, State> {
   render() {
     const { currentRoom } = this.state;
 
-    return <GameInterface room={currentRoom} />;
+    return <GameInterface room={currentRoom} setRoom={this.setRoom} />;
   }
 
   setRoom = (room: Room): void => {

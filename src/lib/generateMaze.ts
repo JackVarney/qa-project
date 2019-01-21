@@ -2,12 +2,7 @@ import { createRoom, Room } from "./room";
 import { directions } from "./directions";
 import { createPassage, Passage } from "./passage";
 import { isNull } from "util";
-
-function generateRandomNumber(min: number, max: number): number {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+import { generateRandomNumber } from "./utils";
 
 function getRandomRoom(
   rooms: Room[]
@@ -46,9 +41,9 @@ function assignRoomPassage(passage: Passage, rooms: Room[]) {
   return room;
 }
 
-export function generateMaze(roomCount: number = 10): Room[] {
+export function generateMaze(roomCount: number = 7): Room[] {
   // create rooms with correct length
-  const rooms = Array.from({ length: roomCount }, () => createRoom());
+  const rooms = Array.from({ length: roomCount }, (_, i) => createRoom(i));
 
   for (let i = 0; i < 10; i += 1) {
     const passage = createPassage();

@@ -2,6 +2,7 @@ import { Item } from "./item";
 import { Passage } from "./passage";
 
 export interface Room {
+  id: number;
   north: Passage | null;
   south: Passage | null;
   west: Passage | null;
@@ -9,8 +10,9 @@ export interface Room {
   items: Item[];
 }
 
-export function createRoom(): Room {
+export function createRoom(id: number): Room {
   return {
+    id,
     north: null,
     south: null,
     west: null,
