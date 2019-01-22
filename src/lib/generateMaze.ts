@@ -1,4 +1,4 @@
-import { createRoom, Room } from "./room";
+import { Room } from "./room";
 import { directions } from "./directions";
 import { createPassage, Passage } from "./passage";
 import { isNull } from "util";
@@ -8,18 +8,17 @@ export function generateMaze(x = 3, y = 3) {
   var xLength = Array.from({ length: x });
   var yLength = Array.from({ length: y });
 
-  interface GridItem extends Room {
+  class GridItem extends Room {
     toBeVisited: boolean;
+
+    constructor(id: string) {
+      super(id);
+
+      this.toBeVisited = true;
+    }
   }
 
-  const grid = yLength.map((_, y) =>
-    yLength.map(
-      (_, x): GridItem => ({
-        ...createRoom(`${y}${x}`),
-        toBeVisited: true
-      })
-    )
-  );
+  const grid = yLength.map((_, y) => yLength.map((_, x) => new GridItem(`${y}${x}`)));
 
   // starting at the top left
   var currentCell = [0, 0];

@@ -1,9 +1,7 @@
-export interface Action {
+export class Action {
   name: string;
-}
 
-export function createAction(name: string) {
-  return {
-    name
-  };
+  constructor(name: string) {
+    this.name = name;
+  }
 }

@@ -1,71 +1,26 @@
 import React, { Component } from "react";
 import { Room } from "../lib/room";
-import { DirectionalButton } from "./DirectionalButton";
-import { Passage } from "../lib/passage";
+import DirectionalButtons from "./DirectionalButtons";
+import Items from "./Items";
+import { Player } from "../types/player";
 
 interface Props {
   room: Room;
   setRoom: (room: Room) => void;
+  alterPlayerGold: (gold: number) => void;
+  player: Player;
 }
-
-interface ButtonConfig {
-  key: keyof Room;
-  text: string;
-}
-
-const buttonConfig: ButtonConfig[] = [
-  { key: "north", text: "North" },
-  { key: "east", text: "East" },
-  { key: "south", text: "South" },
-  { key: "west", text: "West" }
-];
 
 export default class GameInterface extends Component<Props> {
   render() {
-    const { room, setRoom } = this.props;
-
-    console.log(room);
+    const { room, setRoom, alterPlayerGold, player } = this.props;
 
     return (
       <div className="GameInterface">
-        {buttonConfig.map(({ key, text }) => (
-          <DirectionalButton
-            key={key}
-            onClick={() => {
-              const isValidDirection = this.isValidDirection(room[key] as Passage | null);
-
-              if (isValidDirection) {
-                const passage = room[key] as Passage;
-
-                if (passage.isExit) {
-                } else {
-                  const entranceIsDifferentRoom = passage.entrance!.id !== room.id;
-                  const exitIsDifferentRoom = passage.exit!.id !== room.id;
-
-                  if (entranceIsDifferentRoom) {
-                    setRoom(passage.entrance!);
-                  } else if (exitIsDifferentRoom) {
-                    setRoom(passage.exit!);
-                  } else {
-                    // if both rooms are the same then the passage loops
-                    // and the room doesnt need to change
-
-                    console.log("loop");
-                  }
-                }
-              } else {
-                alert("You may not go that way");
-              }
-            }}
-          >
-            {text}
-          </DirectionalButton>
-        ))}
+        <Items room={room} setRoom={setRoom} alterPlayerGold={alterPlayerGold} />
+        <DirectionalButtons room={room} setRoom={setRoom} />
+        <p>{`Player Wealth ${player.wealth}`}</p>
       </div>
     );
-  }
-
-  isValidDirection(direction: Passage | null) {
-    return direction !== null;
   }
 }

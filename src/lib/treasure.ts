@@ -1,15 +1,12 @@
-import { createItem, Item } from "./item";
+import { Item } from "./item";
 import { generateRandomNumber } from "./utils";
 
-export interface Treasure extends Item {
+export class Treasure extends Item {
   value: number;
-}
 
-export function createTreasure(): Treasure {
-  const item = createItem("Gold");
+  constructor() {
+    super("Gold");
 
-  return {
-    ...item,
-    value: generateRandomNumber(10, 1000)
-  };
+    this.value = generateRandomNumber(10, 1000);
+  }
 }

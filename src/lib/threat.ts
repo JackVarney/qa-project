@@ -1,16 +1,12 @@
-import { Item, createItem } from "./item";
-import { Action, createAction } from "./Action";
+import { Item } from "./item";
+import { Action } from "./action";
 
-export interface Threat extends Item {
+export class Threat extends Item {
   action: Action;
-}
 
-export function createThreat() {
-  const item = createItem("IM A THREAT YO");
-  const action = createAction("kill");
+  constructor() {
+    super("Im a threat yo!");
 
-  return {
-    ...item,
-    action
-  };
+    this.action = new Action("kill");
+  }
 }

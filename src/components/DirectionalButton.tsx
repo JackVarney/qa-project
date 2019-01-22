@@ -5,8 +5,10 @@ interface Props {
   onClick: (event: MouseEvent) => void;
 }
 
-export const DirectionalButton: StatelessComponent<Props> = ({ onClick, children }) => (
+const DirectionalButton: StatelessComponent<Props> = ({ onClick, children }) => (
   <button className="DirectionalButton" onClick={onClick}>
     {children}
   </button>
 );
+
+export default DirectionalButton;

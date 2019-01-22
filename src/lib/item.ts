@@ -1,9 +1,7 @@
-export interface Item {
+export class Item {
   name: string;
-}
 
-export function createItem(name: string) {
-  return {
-    name
-  };
+  constructor(name: string) {
+    this.name = name;
+  }
 }
