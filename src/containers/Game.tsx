@@ -4,10 +4,12 @@ import { Room } from "../lib/room";
 import GameInterface from "../components/GameInterface";
 import { Player } from "../types/player";
 
-interface Props {}
+interface Props {
+  rooms: Room[];
+  setRooms: (rooms: Room[]) => void;
+}
 
 interface State {
-  rooms: Room[];
   currentRoomId: string;
   player: Player;
 }
@@ -16,12 +18,8 @@ export default class Game extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const rooms = generateMaze();
-    const roomId = rooms[0].id;
-
     this.state = {
-      rooms,
-      currentRoomId: roomId,
+      currentRoomId: "",
       player: {
         wealth: 0
       }
@@ -29,7 +27,8 @@ export default class Game extends Component<Props, State> {
   }
 
   render() {
-    const { rooms, currentRoomId, player } = this.state;
+    const { rooms } = this.props;
+    const { currentRoomId, player } = this.state;
 
     const currentRoom = rooms[this.getRoomFromId(currentRoomId)];
 
@@ -38,8 +37,12 @@ export default class Game extends Component<Props, State> {
     );
   }
 
-  getRoomFromId(id: string) {
-    const { rooms } = this.state;
+  getRoomFromId(id: string): number {
+    const { rooms } = this.props;
+
+    if (id.length === 0) {
+      return 0;
+    }
 
     return rooms.reduce((roomIndex, room, i) => {
       if (id === room.id) {
@@ -51,13 +54,16 @@ export default class Game extends Component<Props, State> {
   }
 
   setRoom = (room: Room): void => {
-    const rooms = [...this.state.rooms];
+    const { setRooms } = this.props;
+
+    const rooms = [...this.props.rooms];
 
     const index = this.getRoomFromId(room.id);
 
     rooms[index] = room;
 
-    this.setState({ rooms });
+    this.setState({ currentRoomId: room.id });
+    setRooms(rooms);
   };
 
   alterPlayerGold = (gold: number) => {

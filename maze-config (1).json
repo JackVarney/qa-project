@@ -1,0 +1,71 @@
+{
+  "maze": {
+    "rooms": [
+      {
+        "id": "00",
+        "items": [
+          {
+            "name": "Gold",
+            "value": 439
+          },
+          {
+            "name": "Im a threat yo!",
+            "action": {
+              "name": "kill"
+            }
+          }
+        ]
+      },
+      {
+        "id": "01",
+        "items": [
+          {
+            "name": "Gold",
+            "value": 646
+          }
+        ]
+      },
+      {
+        "id": "10",
+        "items": [
+          {
+            "name": "Gold",
+            "value": 521
+          },
+          {
+            "name": "Im a threat yo!",
+            "action": {
+              "name": "kill"
+            }
+          }
+        ]
+      },
+      {
+        "id": "11",
+        "items": [
+          {
+            "name": "Gold",
+            "value": 861
+          }
+        ]
+      }
+    ],
+    "passages": [
+      {
+        "isExit": false,
+        "entrance": "00",
+        "exit": "10"
+      },
+      {
+        "isExit": true,
+        "entrance": "11",
+        "exit": "01"
+      },
+      {
+        "isExit": false,
+        "entrance": "10",
+        "exit": "11"
+      }
+    ]
+  }
+}

@@ -1,10 +1,10 @@
 import { Room } from "./room";
 import { directions } from "./directions";
-import { createPassage, Passage } from "./passage";
+import { Passage } from "./passage";
 import { isNull } from "util";
 import { generateRandomNumber } from "./utils";
 
-export function generateMaze(x = 3, y = 3) {
+export function generateMaze(x = 2, y = 2) {
   var xLength = Array.from({ length: x });
   var yLength = Array.from({ length: y });
 
@@ -30,7 +30,6 @@ export function generateMaze(x = 3, y = 3) {
   var visited = 1;
 
   const totalAmountOfCells: number = x * y;
-
   // if weve visited every cell the grid has been traversed
   while (visited < totalAmountOfCells) {
     let currentCellX: number = currentCell[0];
@@ -62,7 +61,7 @@ export function generateMaze(x = 3, y = 3) {
       const currentCellWallPosition = randomNeighbouringCell[2] as keyof GridItem;
       const randomCellWallPostion = randomNeighbouringCell[3] as keyof GridItem;
 
-      const passage = createPassage();
+      const passage = new Passage();
       passage.entrance = grid[currentCellX][currentCellY];
       passage.exit = grid[neighboringCellX][neighboringCellY];
 
@@ -87,10 +86,29 @@ export function generateMaze(x = 3, y = 3) {
     }
   }
 
-  return grid.reduce(
+  const rooms: Room[] = grid.reduce(
     (acc, cur) => {
       return [...acc, ...cur];
     },
     [] as Room[]
   );
+
+  return setExit(rooms);
+}
+
+function setExit(rooms: Room[]): Room[] {
+  const indexOfFirstDeadEnd: number = generateRandomNumber(0, rooms.length - 1);
+
+  directions.every(key => {
+    const passage = rooms[indexOfFirstDeadEnd][key] as Passage;
+
+    if (passage !== null) {
+      passage.isExit = true;
+      return false;
+    }
+
+    return true;
+  });
+
+  return rooms;
 }

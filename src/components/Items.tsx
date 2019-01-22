@@ -4,6 +4,8 @@ import { Threat } from "../lib/threat";
 import { Treasure } from "../lib/treasure";
 import { Room } from "../lib/room";
 import TreasureDisplay from "./TreasureDisplay";
+import ThreatDisplay from "./ThreatDisplay";
+import "./Items.css";
 
 interface Props {
   setRoom: (room: Room) => void;
@@ -16,6 +18,14 @@ export default class Items extends Component<Props> {
     const { setRoom, room, alterPlayerGold } = this.props;
     let foundGold: boolean = false;
 
+    const removeItem = (id: number) => {
+      const newRoom: Room = room.cloneRoom();
+
+      newRoom.items.splice(id, 1);
+
+      setRoom(newRoom);
+    };
+
     const itemsToRender = room.items.map((item, i) => {
       if (item instanceof Treasure) {
         foundGold = true;
@@ -27,11 +37,17 @@ export default class Items extends Component<Props> {
             onCollect={() => {
               alterPlayerGold(item.value);
 
-              const newRoom: Room = room.cloneRoom();
-
-              newRoom.items.splice(i, 1);
-
-              setRoom(newRoom);
+              removeItem(i);
+            }}
+          />
+        );
+      } else if (item instanceof Threat) {
+        return (
+          <ThreatDisplay
+            key={i}
+            threat={item}
+            onAction={() => {
+              removeItem(i);
             }}
           />
         );
@@ -42,6 +58,6 @@ export default class Items extends Component<Props> {
       itemsToRender.push(<TreasureDisplay key="no treasure" treasure={null} />);
     }
 
-    return itemsToRender;
+    return <div className="Items">{itemsToRender}</div>;
   }
 }
