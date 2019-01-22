@@ -26,38 +26,34 @@ export default class DirectionalButtons extends Component<Props> {
 
     console.log(room);
 
-    return (
-      <>
-        {buttonConfig.map(({ key, text }) => (
-          <DirectionalButton
-            key={key}
-            onClick={() => {
-              const isValidDirection = this.isValidDirection(room[key] as Passage | null);
+    return buttonConfig.map(({ key, text }) => (
+      <DirectionalButton
+        key={key}
+        onClick={() => {
+          const isValidDirection: boolean = this.isValidDirection(room[key] as Passage | null);
 
-              if (isValidDirection) {
-                const passage = room[key] as Passage;
+          if (isValidDirection) {
+            const passage = room[key] as Passage;
 
-                if (passage.isExit) {
-                } else {
-                  const entranceIsDifferentRoom = passage.entrance!.id !== room.id;
-                  const exitIsDifferentRoom = passage.exit!.id !== room.id;
+            if (passage.isExit) {
+            } else {
+              const entranceIsDifferentRoom = passage.entrance!.id !== room.id;
+              const exitIsDifferentRoom = passage.exit!.id !== room.id;
 
-                  if (entranceIsDifferentRoom) {
-                    setRoom(passage.entrance!);
-                  } else if (exitIsDifferentRoom) {
-                    setRoom(passage.exit!);
-                  }
-                }
-              } else {
-                alert("You may not go that way");
+              if (entranceIsDifferentRoom) {
+                setRoom(passage.entrance!);
+              } else if (exitIsDifferentRoom) {
+                setRoom(passage.exit!);
               }
-            }}
-          >
-            {text}
-          </DirectionalButton>
-        ))}
-      </>
-    );
+            }
+          } else {
+            alert("You may not go that way");
+          }
+        }}
+      >
+        {text}
+      </DirectionalButton>
+    ));
   }
 
   isValidDirection(direction: Passage | null) {
