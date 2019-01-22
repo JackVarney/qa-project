@@ -4,73 +4,94 @@ import { createPassage, Passage } from "./passage";
 import { isNull } from "util";
 import { generateRandomNumber } from "./utils";
 
-function getRandomRoom(
-  rooms: Room[]
-): {
-  room: Room;
-  validDirections: Array<keyof Room>;
-} {
-  const index: number = generateRandomNumber(0, rooms.length - 1);
-  const room: Room = rooms[index];
+export function generateMaze(x = 3, y = 3) {
+  var xLength = Array.from({ length: x });
+  var yLength = Array.from({ length: y });
 
-  const validDirections = directions.reduce(
-    (acc, direction) => {
-      const hasNoPassage: boolean = room[direction] === null;
-
-      if (hasNoPassage) {
-        acc.push(direction);
-      }
-
-      return acc;
-    },
-    [] as Array<keyof Room>
-  );
-
-  return validDirections.length === 0
-    ? getRandomRoom(rooms)
-    : {
-        room,
-        validDirections
-      };
-}
-
-function assignRoomPassage(passage: Passage, rooms: Room[]) {
-  const { room, validDirections } = getRandomRoom(rooms);
-  const direction = validDirections[generateRandomNumber(0, validDirections.length - 1)];
-  room[direction] = passage;
-  return room;
-}
-
-export function generateMaze(roomCount: number = 7): Room[] {
-  // create rooms with correct length
-  const rooms = Array.from({ length: roomCount }, (_, i) => createRoom(i));
-
-  for (let i = 0; i < 10; i += 1) {
-    const passage = createPassage();
-
-    const room1 = assignRoomPassage(passage, rooms);
-    passage.entrance = room1;
-
-    const room2 = assignRoomPassage(passage, rooms);
-    passage.exit = room2;
+  interface GridItem extends Room {
+    toBeVisited: boolean;
   }
 
-  const roomsWithPassages: Room[] = rooms.filter(
-    ({ east, west, south, north }) => east !== null || west !== null || south !== null || north !== null
+  const grid = yLength.map((_, y) =>
+    yLength.map(
+      (_, x): GridItem => ({
+        ...createRoom(`${y}${x}`),
+        toBeVisited: true
+      })
+    )
   );
 
-  const { room } = getRandomRoom(roomsWithPassages);
-  directions.every(key => {
-    let shouldContinue = true;
+  // starting at the top left
+  var currentCell = [0, 0];
+  var path = [currentCell];
 
-    if (room[key] !== null) {
-      const exitPassage = room[key] as Passage;
-      exitPassage.isExit = true;
-      shouldContinue = false;
+  // flag the top left cell as visited and
+  // store that we have visited one cell
+  grid[0][0].toBeVisited = false;
+  var visited = 1;
+
+  const totalAmountOfCells: number = x * y;
+
+  // if weve visited every cell the grid has been traversed
+  while (visited < totalAmountOfCells) {
+    let currentCellX: number = currentCell[0];
+    let currentCellY: number = currentCell[1];
+
+    // create an array of potential neighboring cells
+    // and filter out any invalid neighbors
+    const neighboringCells = [
+      [currentCellX - 1, currentCellY, "north", "south"],
+      [currentCellX, currentCellY + 1, "east", "west"],
+      [currentCellX + 1, currentCellY, "south", "north"],
+      [currentCellX, currentCellY - 1, "west", "east"]
+    ].filter(cellInformation => {
+      const potentialX = cellInformation[0] as number;
+      const potentialY = cellInformation[1] as number;
+
+      const potentialNeighborIsWithinGrid: boolean =
+        potentialX > -1 && potentialX < y && potentialY > -1 && potentialY < x;
+
+      return potentialNeighborIsWithinGrid && grid[potentialX][potentialY].toBeVisited;
+    });
+
+    if (neighboringCells.length > 0) {
+      // get the values of a random valid neighboring cell
+      const randomNeighbouringCell = neighboringCells[Math.floor(Math.random() * neighboringCells.length)];
+
+      const neighboringCellX = randomNeighbouringCell[0] as number;
+      const neighboringCellY = randomNeighbouringCell[1] as number;
+      const currentCellWallPosition = randomNeighbouringCell[2] as keyof GridItem;
+      const randomCellWallPostion = randomNeighbouringCell[3] as keyof GridItem;
+
+      const passage = createPassage();
+      passage.entrance = grid[currentCellX][currentCellY];
+      passage.exit = grid[neighboringCellX][neighboringCellY];
+
+      // remove the wall between the current cell and the random cell
+      // and assign the passage to the cell wall
+      grid[currentCellX][currentCellY][currentCellWallPosition] = passage;
+      grid[neighboringCellX][neighboringCellY][randomCellWallPostion] = passage;
+
+      // flag the cell as visited
+      grid[neighboringCellX][neighboringCellY].toBeVisited = false;
+      // update the current cell to be the neighboring cell
+      currentCell = [neighboringCellX, neighboringCellY];
+
+      visited += 1;
+      // add the current cell the the stack
+      // so that we can traverse back to it
+      path.push(currentCell);
+    } else {
+      // if there are no valid neighboring cells
+      // remove the current cell from the stack and revert to the previous cell
+      currentCell = path.pop()!;
     }
+  }
 
-    return shouldContinue;
-  });
-
-  return roomsWithPassages;
+  return grid.reduce(
+    (acc, cur) => {
+      return [...acc, ...cur];
+    },
+    [] as Room[]
+  );
 }
