@@ -27,7 +27,7 @@ export default class DirectionalButtons extends Component<Props> {
     console.log(room);
 
     return buttonConfig.map(({ key, text }) => (
-      <DirectionalButton key={key} onClick={this.createOnClick(key)}>
+      <DirectionalButton key={key} onClick={this.createOnClick(key)} disabled={this.isDisabled(key)}>
         {text}
       </DirectionalButton>
     ));
@@ -49,20 +49,33 @@ export default class DirectionalButtons extends Component<Props> {
         if (passage.isExit) {
           alert("game over");
         } else {
-          const entranceIsDifferentRoom = passage.entrance!.id !== room.id;
-          const exitIsDifferentRoom = passage.exit!.id !== room.id;
-
-          if (entranceIsDifferentRoom) {
-            setRoom(passage.entrance!);
-          } else if (exitIsDifferentRoom) {
-            setRoom(passage.exit!);
-          }
+          setRoom(this.getRoomFromPassage(passage, room.id));
         }
       } else {
         alert("You may not go that way");
       }
     }
   };
+
+  getRoomFromPassage(passage: Passage, id: string): Room {
+    const entranceIsDifferentRoom = passage.entrance!.id !== id;
+
+    if (entranceIsDifferentRoom) {
+      return passage.entrance! as Room;
+    } else {
+      return passage.exit! as Room;
+    }
+  }
+
+  isDisabled(key: keyof Room): boolean {
+    const { room } = this.props;
+
+    if (this.hasThreat()) {
+      return true;
+    }
+
+    return room[key] === null;
+  }
 
   isValidDirection(direction: Passage | null) {
     return direction !== null;

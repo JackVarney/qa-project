@@ -1,2 +1,21 @@
 .DirectionalButton {
+  border: 2px solid #fefefe;
+  background-color: #e91e63;
+  padding: 1em 2em;
+  font-size: 2em;
+  max-width: 200px;
+  cursor: pointer;
+}
+
+.DirectionalButton:hover {
+  background-color: #c2185b;
+}
+
+.DirectionalButton--disabled {
+  cursor: not-allowed;
+  background-color: #9e9e9e;
+}
+
+.DirectionalButton--disabled:hover {
+  background-color: #9e9e9e;
 }
