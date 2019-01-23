@@ -24,7 +24,6 @@ const buttonConfig: ButtonConfig[] = [
 export default class DirectionalButtons extends Component<Props> {
   render() {
     const { room } = this.props;
-    console.log(room);
 
     return buttonConfig.map(({ key, text }) => (
       <DirectionalButton key={key} onClick={this.createOnClick(key)} disabled={this.isDisabled(key)}>
@@ -59,6 +58,8 @@ export default class DirectionalButtons extends Component<Props> {
 
   getRoomFromPassage(passage: Passage, id: string): Room {
     const entranceIsDifferentRoom = passage.entrance!.id !== id;
+
+    console.log(passage);
 
     if (entranceIsDifferentRoom) {
       return passage.entrance! as Room;

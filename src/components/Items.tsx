@@ -6,6 +6,7 @@ import { Room } from "../lib/room";
 import TreasureDisplay from "./TreasureDisplay";
 import ThreatDisplay from "./ThreatDisplay";
 import "./Items.css";
+import { Passage } from "../lib/passage";
 
 interface Props {
   setRoom: (room: Room) => void;
@@ -18,10 +19,32 @@ export default class Items extends Component<Props> {
     const { setRoom, room, alterPlayerGold } = this.props;
     let foundGold: boolean = false;
 
-    const removeItem = (id: number) => {
-      const newRoom: Room = room.cloneRoom();
+    const setPassage = (passage: Passage | null, newRoom: Room) => {
+      if (passage instanceof Passage) {
+        if (passage.entrance!.id === newRoom.id) {
+          passage.entrance = newRoom;
+        } else {
+          passage.exit = newRoom;
+        }
+      }
+    };
 
-      newRoom.items.splice(id, 1);
+    const removeItem = (id: number) => {
+      const newRoom = new Room(room.id);
+
+      newRoom.east = room.east;
+      setPassage(newRoom.east, newRoom);
+
+      newRoom.south = room.south;
+      setPassage(newRoom.south, newRoom);
+
+      newRoom.west = room.west;
+      setPassage(newRoom.west, newRoom);
+
+      newRoom.north = room.north;
+      setPassage(newRoom.north, newRoom);
+
+      newRoom.items = room.items.filter((_, i) => i !== id);
 
       setRoom(newRoom);
     };
@@ -36,7 +59,6 @@ export default class Items extends Component<Props> {
             treasure={item}
             onCollect={() => {
               alterPlayerGold(item.value);
-
               removeItem(i);
             }}
           />

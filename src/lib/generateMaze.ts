@@ -4,7 +4,7 @@ import { Passage } from "./passage";
 import { isNull } from "util";
 import { generateRandomNumber } from "./utils";
 
-export function generateMaze(x = 2, y = 2) {
+export function generateMaze(x = 3, y = 3) {
   var xLength = Array.from({ length: x });
   var yLength = Array.from({ length: y });
 

@@ -4,14 +4,15 @@ import { Room } from "../lib/room";
 import GameInterface from "../components/GameInterface";
 import { Player } from "../types/player";
 import "./Game.css";
+import { Passage } from "../lib/passage";
 
 interface Props {
   rooms: Room[];
-  setRooms: (rooms: Room[]) => void;
+  setRooms: (rooms: Room[], currentRoomId: string) => void;
+  currentRoomId: string;
 }
 
 interface State {
-  currentRoomId: string;
   player: Player;
 }
 
@@ -20,7 +21,6 @@ export default class Game extends Component<Props, State> {
     super(props);
 
     this.state = {
-      currentRoomId: "",
       player: {
         wealth: 0
       }
@@ -28,10 +28,11 @@ export default class Game extends Component<Props, State> {
   }
 
   render() {
-    const { rooms } = this.props;
-    const { currentRoomId, player } = this.state;
+    const { currentRoomId, rooms } = this.props;
+    console.log(rooms);
+    const { player } = this.state;
 
-    const currentRoom = rooms[this.getRoomFromId(currentRoomId)];
+    const currentRoom = rooms[this.getRoomIndexFromId(currentRoomId)];
 
     return (
       <div className="Game">
@@ -46,7 +47,7 @@ export default class Game extends Component<Props, State> {
     );
   }
 
-  getRoomFromId(id: string): number {
+  getRoomIndexFromId(id: string): number {
     const { rooms } = this.props;
 
     if (id.length === 0) {
@@ -63,16 +64,11 @@ export default class Game extends Component<Props, State> {
   }
 
   setRoom = (room: Room): void => {
-    const { setRooms } = this.props;
+    const { setRooms, rooms } = this.props;
 
-    const rooms = [...this.props.rooms];
+    const newRooms = rooms.filter(r => r.id !== room.id);
 
-    const index = this.getRoomFromId(room.id);
-
-    rooms[index] = room;
-
-    this.setState({ currentRoomId: room.id });
-    setRooms(rooms);
+    setRooms([...newRooms, room], room.id);
   };
 
   alterPlayerGold = (gold: number) => {

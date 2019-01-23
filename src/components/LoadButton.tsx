@@ -42,8 +42,6 @@ export default class LoadButton extends Component<Props> {
         const maze: Room[] = this.restoreMaze(loadedMaze);
 
         this.props.onLoad(maze);
-
-        console.log(maze);
       };
 
       reader.readAsText(file);

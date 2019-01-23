@@ -32,18 +32,4 @@ export class Room {
 
     return items;
   }
-
-  cloneRoom(): Room {
-    const newRoom = new Room(this.id);
-
-    // passages wont ever change so we can keep the same object reference
-    newRoom.north = this.north;
-    newRoom.east = this.east;
-    newRoom.west = this.west;
-    newRoom.south = this.south;
-
-    newRoom.items = [...this.items];
-
-    return newRoom;
-  }
 }

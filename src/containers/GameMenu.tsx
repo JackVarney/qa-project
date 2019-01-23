@@ -15,6 +15,7 @@ interface State {
   hasConfig: boolean;
   rooms: Room[];
   ogRooms: Room[];
+  currentRoomId: string;
 }
 
 export default class GameMenu extends Component<Props, State> {
@@ -24,19 +25,22 @@ export default class GameMenu extends Component<Props, State> {
     this.state = {
       hasConfig: false,
       rooms: [],
-      ogRooms: []
+      ogRooms: [],
+      currentRoomId: ""
     };
   }
 
   render() {
-    const { hasConfig, rooms } = this.state;
+    const { hasConfig, rooms, currentRoomId } = this.state;
 
     if (hasConfig) {
       return (
         <Game
+          currentRoomId={currentRoomId}
           rooms={rooms}
-          setRooms={(rooms: Room[]) => {
-            this.setState({ rooms });
+          setRooms={(rooms: Room[], currentRoomId: string) => {
+            console.log("set rooms", rooms);
+            this.setState({ rooms, currentRoomId });
           }}
         />
       );
@@ -58,7 +62,7 @@ export default class GameMenu extends Component<Props, State> {
           }}
         />
         <button className="GameMenu__create-button" onClick={this.onCreateConfig}>
-          Create Config
+          Create New Config
         </button>
         <button
           className="Test"
