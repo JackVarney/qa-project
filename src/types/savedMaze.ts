@@ -3,12 +3,7 @@ import { Item } from "../lib/item";
 export interface SavedMaze {
   maze: {
     rooms: SavedRoom[];
-    passages: Array<{
-      id: string;
-      isExit: boolean;
-      entrance: string;
-      exit: string;
-    }>;
+    passages: SavedPassage[];
   };
 }
 
@@ -22,4 +17,11 @@ export interface Walls {
 export interface SavedRoom extends Walls {
   id: string;
   items: Item[];
+}
+
+export interface SavedPassage {
+  id: string;
+  isExit: boolean;
+  entrance: string;
+  exit: string;
 }

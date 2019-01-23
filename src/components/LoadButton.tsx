@@ -1,11 +1,20 @@
 import React, { Component } from "react";
-import { SavedMaze, Walls } from "../types/savedMaze";
+import { SavedMaze, Walls, SavedPassage, SavedRoom } from "../types/savedMaze";
 import { Room } from "../lib/room";
 import { Passage } from "../lib/passage";
 import { directions } from "../lib/directions";
 import "./LoadButton.css";
 
-export default class LoadButton extends Component {
+type Passages = {
+  savedPassage: SavedPassage;
+  passage: Passage;
+};
+
+interface Props {
+  onLoad: (rooms: Room[]) => void;
+}
+
+export default class LoadButton extends Component<Props> {
   render() {
     return (
       <>
@@ -30,6 +39,8 @@ export default class LoadButton extends Component {
 
         const maze: Room[] = this.restoreMaze(loadedMaze);
 
+        this.props.onLoad(maze);
+
         console.log(maze);
       };
 
@@ -41,8 +52,19 @@ export default class LoadButton extends Component {
     const m = loadedMaze.maze;
     const { passages: loadedPassages, rooms } = m;
 
-    const passages = loadedPassages.map(({ id, isExit }): Passage => new Passage(id, isExit));
+    // create passages from saved passages
+    const passages: Passages[] = loadedPassages.map(savedPassage => ({
+      passage: new Passage(savedPassage.id, savedPassage.isExit),
+      savedPassage
+    }));
 
+    const newRooms = this.loadRoomsFromSavedRooms(rooms, passages);
+    this.assignLoadedRoomsToPassages(newRooms, passages);
+
+    return newRooms;
+  }
+
+  loadRoomsFromSavedRooms(rooms: SavedRoom[], passages: Passages[]) {
     return rooms.map(
       (loadedRoom): Room => {
         const room = new Room(loadedRoom.id);
@@ -52,15 +74,15 @@ export default class LoadButton extends Component {
           const d = direction as keyof Walls;
 
           if (loadedRoom[d] !== null) {
-            const passage = passages.reduce<Passage>(
+            const { savedPassage, passage } = passages.reduce(
               (acc, cur) => {
-                if (cur.id === loadedRoom[d]) {
+                if (cur.passage.id === loadedRoom[d]) {
                   acc = cur;
                 }
 
                 return acc;
               },
-              {} as Passage
+              {} as Passages
             );
 
             room[d] = passage;
@@ -70,5 +92,34 @@ export default class LoadButton extends Component {
         return room;
       }
     );
+  }
+
+  assignLoadedRoomsToPassages(rooms: Room[], passages: Passages[]) {
+    rooms.forEach(room => {
+      directions.forEach(key => {
+        const d = key as keyof Walls;
+
+        if (room[d]) {
+          const passage = room[d] as Passage;
+
+          passages.forEach(({ savedPassage }) => {
+            if (savedPassage.id === passage.id) {
+              passage.entrance = this.getRoomFromId(rooms, savedPassage.entrance);
+              passage.exit = this.getRoomFromId(rooms, savedPassage.exit);
+            }
+          });
+        }
+      });
+    });
+  }
+
+  getRoomFromId(rooms: Room[], id: string): Room {
+    return rooms.reduce((acc, room) => {
+      if (room.id === id) {
+        acc = room;
+      }
+
+      return acc;
+    });
   }
 }

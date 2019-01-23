@@ -48,7 +48,15 @@ export default class GameMenu extends Component<Props, State> {
   renderConfigCreation(): JSX.Element {
     return (
       <div className="GameMenu">
-        <LoadButton />
+        <LoadButton
+          onLoad={rooms => {
+            this.setState({
+              rooms: rooms,
+              ogRooms: rooms,
+              hasConfig: true
+            });
+          }}
+        />
         <button className="GameMenu__create-button" onClick={this.onCreateConfig}>
           Create Config
         </button>
