@@ -23,12 +23,14 @@ export class Room {
   private generateItems(): Item[] {
     const items = [];
 
-    items.push(new Treasure());
-
+    // 50% chance of a room having a threat
     const hasThreat: boolean = Math.random() > 0.5;
     if (hasThreat) {
       items.push(new Threat());
     }
+
+    // all rooms have treasure
+    items.push(new Treasure());
 
     return items;
   }

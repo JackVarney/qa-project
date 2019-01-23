@@ -27,7 +27,7 @@ export default class TreasureDisplay extends Component<Props> {
     } else {
       return (
         <div className="Treasure">
-          <p>NO TREASURE FOR YOU SON</p>
+          <p>There is no treasure to be found here!</p>
         </div>
       );
     }

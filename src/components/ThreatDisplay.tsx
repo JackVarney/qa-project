@@ -15,9 +15,19 @@ export default class ThreatDisplay extends Component<Props> {
       <div className="Threat">
         <span className="Threat__text">You have encountered:</span>
         <span className="Threat__name">{threat.name}</span>
-        <button className="Threat__action" onClick={onAction}>
-          {threat.action.name}
-        </button>
+        <div className="Threat__action-wrapper">
+          <button className="Threat__action" onClick={onAction}>
+            {threat.action.name}
+          </button>
+          <button
+            className="Threat__action"
+            onClick={() => {
+              alert("Didnt work!");
+            }}
+          >
+            {threat.wrongAction.name}
+          </button>
+        </div>
       </div>
     );
   }

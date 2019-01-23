@@ -124,6 +124,7 @@ export default class LoadButton extends Component<Props> {
           const ogThreat = item as Threat;
           const t = new Threat();
           t.action = ogThreat.action;
+          t.wrongAction = ogThreat.wrongAction;
           return t;
         }
       });
