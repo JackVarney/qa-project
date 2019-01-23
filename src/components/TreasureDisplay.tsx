@@ -14,7 +14,7 @@ export default class TreasureDisplay extends Component<Props> {
 
     if (treasure instanceof Treasure) {
       return (
-        <div className=".Treasure__wrapper">
+        <div className="Treasure__wrapper">
           <img src={coin} alt="Image of treasure" />
           <p>{`${treasure.name}: ${treasure.value}`}</p>
           <button onClick={onCollect}>collect gold</button>

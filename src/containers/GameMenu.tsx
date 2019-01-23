@@ -7,7 +7,7 @@ import { Passage } from "../lib/passage";
 import { Item } from "../lib/item";
 import { saveMaze } from "../lib/saveGame";
 import LoadButton from "../components/LoadButton";
-import "./GameMenu";
+import "./GameMenu.css";
 
 interface Props {}
 
@@ -49,8 +49,11 @@ export default class GameMenu extends Component<Props, State> {
     return (
       <div className="GameMenu">
         <LoadButton />
-        <button onClick={this.onCreateConfig}>Create Config</button>
+        <button className="GameMenu__create-button" onClick={this.onCreateConfig}>
+          Create Config
+        </button>
         <button
+          className="Test"
           onClick={() => {
             this.saveConfig(this.state.rooms);
           }}

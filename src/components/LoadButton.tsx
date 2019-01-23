@@ -8,10 +8,12 @@ import "./LoadButton.css";
 export default class LoadButton extends Component {
   render() {
     return (
-      <label htmlFor="load-config">
-        Load Config
-        <input name="load-config" type="file" onChange={this.onLoadConfig} />
-      </label>
+      <>
+        <label className="LoadButton__label" htmlFor="load-config">
+          Load Config
+        </label>
+        <input className="LoadButton__input" id="load-config" type="file" onChange={this.onLoadConfig} />
+      </>
     );
   }
 

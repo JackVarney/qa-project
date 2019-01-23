@@ -1,2 +1,16 @@
-.LoadButton {
+.LoadButton__label {
+  border: 2px solid #fefefe;
+  border-radius: 2px;
+  background-color: #42a5f5;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.LoadButton__label:hover {
+  background-color: #039be5;
+}
+
+.LoadButton__input {
+  width: 0.1px;
+  height: 0.1px;
 }
