@@ -1,0 +1,4 @@
+.Game {
+  width: calc(95% - 2px);
+  margin: 0 2.5%;
+}

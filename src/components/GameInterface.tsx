@@ -3,6 +3,7 @@ import { Room } from "../lib/room";
 import DirectionalButtons from "./DirectionalButtons";
 import Items from "./Items";
 import { Player } from "../types/player";
+import "./GameInterface.css";
 
 interface Props {
   room: Room;
@@ -19,7 +20,7 @@ export default class GameInterface extends Component<Props> {
       <div className="GameInterface">
         <Items room={room} setRoom={setRoom} alterPlayerGold={alterPlayerGold} />
         <DirectionalButtons room={room} setRoom={setRoom} />
-        <p>{`Player Wealth ${player.wealth}`}</p>
+        <p className="GameInterface__player">Player Wealth: {player.wealth}</p>
       </div>
     );
   }

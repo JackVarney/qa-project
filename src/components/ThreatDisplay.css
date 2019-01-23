@@ -1,4 +1,4 @@
-.Treasure {
+.Threat {
   margin: 1em;
   display: flex;
   flex-direction: column;
@@ -9,23 +9,13 @@
   padding: 1em;
 }
 
-.Treasure__image {
-  height: 40px;
-  width: 40px;
+.Threat__text {
 }
 
-.Treasure__gold {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  color: #bf360c;
-  background-color: #ffc107;
-  padding: 1em;
-  margin-bottom: 1em;
+.Threat__name {
 }
 
-.Treasure__collect-button {
+.Threat__action {
   border: 2px solid #fefefe;
   padding: 1em;
   cursor: pointer;

@@ -14,15 +14,19 @@ export default class TreasureDisplay extends Component<Props> {
 
     if (treasure instanceof Treasure) {
       return (
-        <div className="Treasure__wrapper">
-          <img src={coin} alt="Image of treasure" />
-          <p>{`${treasure.name}: ${treasure.value}`}</p>
-          <button onClick={onCollect}>collect gold</button>
+        <div className="Treasure">
+          <span className="Treasure__gold">
+            {`${treasure.name}: ${treasure.value}`}
+            <img className="Treasure__image" src={coin} alt="Image of treasure" />
+          </span>
+          <button className="Treasure__collect-button" onClick={onCollect}>
+            collect gold
+          </button>
         </div>
       );
     } else {
       return (
-        <div className="Treasure__wrapper">
+        <div className="Treasure">
           <p>NO TREASURE FOR YOU SON</p>
         </div>
       );

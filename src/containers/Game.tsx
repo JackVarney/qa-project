@@ -3,6 +3,7 @@ import { generateMaze } from "../lib/generateMaze";
 import { Room } from "../lib/room";
 import GameInterface from "../components/GameInterface";
 import { Player } from "../types/player";
+import "./Game.css";
 
 interface Props {
   rooms: Room[];
@@ -33,7 +34,15 @@ export default class Game extends Component<Props, State> {
     const currentRoom = rooms[this.getRoomFromId(currentRoomId)];
 
     return (
-      <GameInterface player={player} room={currentRoom} setRoom={this.setRoom} alterPlayerGold={this.alterPlayerGold} />
+      <div className="Game">
+        <h2>Room: {currentRoom.id}</h2>
+        <GameInterface
+          player={player}
+          room={currentRoom}
+          setRoom={this.setRoom}
+          alterPlayerGold={this.alterPlayerGold}
+        />
+      </div>
     );
   }
 

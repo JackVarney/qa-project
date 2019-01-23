@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Threat } from "../lib/threat";
+import "./ThreatDisplay.css";
 
 interface Props {
   threat: Threat;
@@ -11,9 +12,12 @@ export default class ThreatDisplay extends Component<Props> {
     const { threat, onAction } = this.props;
 
     return (
-      <div>
-        <span>You have encountered a {threat.name}</span>
-        <button onClick={onAction}>{threat.action.name}</button>
+      <div className="Threat">
+        <span className="Threat__text">You have encountered:</span>
+        <span className="Threat__name">{threat.name}</span>
+        <button className="Threat__action" onClick={onAction}>
+          {threat.action.name}
+        </button>
       </div>
     );
   }
