@@ -4,6 +4,8 @@ import { Room } from "../lib/room";
 import { Passage } from "../lib/passage";
 import { directions } from "../lib/directions";
 import "./LoadButton.css";
+import { Treasure } from "../lib/treasure";
+import { Threat } from "../lib/threat";
 
 type Passages = {
   savedPassage: SavedPassage;
@@ -60,8 +62,7 @@ export default class LoadButton extends Component<Props> {
 
     const newRooms = this.loadRoomsFromSavedRooms(rooms, passages);
     this.assignLoadedRoomsToPassages(newRooms, passages);
-
-    return newRooms;
+    return this.instanciateItems(newRooms);
   }
 
   loadRoomsFromSavedRooms(rooms: SavedRoom[], passages: Passages[]) {
@@ -110,6 +111,26 @@ export default class LoadButton extends Component<Props> {
           });
         }
       });
+    });
+  }
+
+  instanciateItems(rooms: Room[]): Room[] {
+    return rooms.map(room => {
+      room.items = room.items.map(item => {
+        if (item.name === "Gold") {
+          const ogTreasure = item as Treasure;
+          const t = new Treasure();
+          t.value = ogTreasure.value;
+          return t;
+        } else {
+          const ogThreat = item as Threat;
+          const t = new Threat();
+          t.action = ogThreat.action;
+          return t;
+        }
+      });
+
+      return room;
     });
   }
 
