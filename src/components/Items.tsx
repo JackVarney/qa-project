@@ -58,8 +58,6 @@ export default class Items extends Component<Props> {
 
     newRoom.items = room.items.filter((_, i) => i !== id);
 
-    console.log(newRoom.items);
-
     this.props.setRoom(newRoom);
   };
 }

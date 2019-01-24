@@ -61,8 +61,6 @@ export default class DirectionalButtons extends Component<Props> {
   getRoomFromPassage(passage: Passage, id: string): Room {
     const entranceIsDifferentRoom = passage.entrance!.id !== id;
 
-    console.log(passage);
-
     if (entranceIsDifferentRoom) {
       return passage.entrance! as Room;
     } else {
