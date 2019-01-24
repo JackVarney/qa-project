@@ -42,7 +42,14 @@ export default class Game extends Component<Props, State> {
         <h2>Room: {currentRoom.id}</h2>
         <GameInterface
           depositGold={this.depositCoin}
-          restartGame={restartGame}
+          restartGame={() => {
+            restartGame();
+            this.setState({
+              player: {
+                wealth: 0
+              }
+            });
+          }}
           onLoad={onLoad}
           player={player}
           room={currentRoom}

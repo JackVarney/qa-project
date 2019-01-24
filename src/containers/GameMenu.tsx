@@ -18,6 +18,7 @@ interface State {
   rooms: Room[];
   ogRooms: Room[];
   currentRoomId: string;
+  newGameStarted: boolean;
 }
 
 export default class GameMenu extends Component<Props, State> {
@@ -28,12 +29,13 @@ export default class GameMenu extends Component<Props, State> {
       hasConfig: false,
       rooms: [],
       ogRooms: [],
-      currentRoomId: ""
+      currentRoomId: "",
+      newGameStarted: false
     };
   }
 
   render() {
-    const { hasConfig, rooms, currentRoomId } = this.state;
+    const { newGameStarted, hasConfig, rooms, currentRoomId } = this.state;
 
     if (hasConfig) {
       return (
@@ -53,12 +55,6 @@ export default class GameMenu extends Component<Props, State> {
     }
   }
 
-  restartGame = () => {
-    this.setState({
-      rooms: this.state.ogRooms
-    });
-  };
-
   renderConfigCreation(): JSX.Element {
     return (
       <div className="GameMenu">
@@ -76,21 +72,31 @@ export default class GameMenu extends Component<Props, State> {
     );
   }
 
+  restartGame = () => {
+    this.setState({
+      rooms: Room.cloneRooms(this.state.ogRooms),
+      currentRoomId: this.getRandomRoom(this.state.rooms),
+      newGameStarted: this.state.newGameStarted
+    });
+  };
+
   onLoad = (rooms: Room[]) => {
     this.setState({
       rooms: rooms,
-      ogRooms: rooms,
+      ogRooms: Room.cloneRooms(rooms),
       currentRoomId: this.getRandomRoom(rooms),
-      hasConfig: true
+      hasConfig: true,
+      newGameStarted: true
     });
   };
 
   onCreateConfig = (rooms: Room[]) => {
     this.setState({
-      hasConfig: true,
-      ogRooms: rooms,
+      rooms,
+      ogRooms: Room.cloneRooms(rooms),
       currentRoomId: this.getRandomRoom(rooms),
-      rooms
+      hasConfig: true,
+      newGameStarted: true
     });
   };
 

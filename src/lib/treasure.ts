@@ -8,4 +8,8 @@ export class Treasure extends Item {
     super(name);
     this.value = value;
   }
+
+  clone(): Treasure {
+    return new Treasure(this.name, this.value);
+  }
 }

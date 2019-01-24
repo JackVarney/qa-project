@@ -50,9 +50,13 @@ export class Room {
     newRoom.north = this.north;
     this.setPassage(newRoom.north, newRoom);
 
-    newRoom.items = [...this.items];
+    newRoom.items = this.cloneItems();
 
     return newRoom;
+  }
+
+  private cloneItems(): Item[] {
+    return this.items.map(item => item.clone());
   }
 
   private setPassage = (passage: Passage | null, newRoom: Room) => {
@@ -64,4 +68,10 @@ export class Room {
       }
     }
   };
+
+  static cloneRooms(rooms: Room[]): Room[] {
+    return rooms.map(room => {
+      return room.cloneRoom();
+    });
+  }
 }

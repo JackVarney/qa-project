@@ -4,4 +4,8 @@ export class Item {
   constructor(name: string) {
     this.name = name;
   }
+
+  clone(): Item {
+    return new Item(this.name);
+  }
 }
