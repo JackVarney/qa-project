@@ -7,6 +7,8 @@ import "./Game.css";
 import { Passage } from "../lib/passage";
 
 interface Props {
+  restartGame: () => void;
+  onLoad: (rooms: Room[]) => void;
   rooms: Room[];
   setRooms: (rooms: Room[], currentRoomId: string) => void;
   currentRoomId: string;
@@ -28,8 +30,7 @@ export default class Game extends Component<Props, State> {
   }
 
   render() {
-    const { currentRoomId, rooms } = this.props;
-    console.log(rooms);
+    const { currentRoomId, rooms, onLoad, restartGame } = this.props;
     const { player } = this.state;
 
     const currentRoom = rooms[this.getRoomIndexFromId(currentRoomId)];
@@ -38,6 +39,8 @@ export default class Game extends Component<Props, State> {
       <div className="Game">
         <h2>Room: {currentRoom.id}</h2>
         <GameInterface
+          restartGame={restartGame}
+          onLoad={onLoad}
           player={player}
           room={currentRoom}
           setRoom={this.setRoom}

@@ -36,6 +36,8 @@ export default class GameMenu extends Component<Props, State> {
     if (hasConfig) {
       return (
         <Game
+          restartGame={this.restartGame}
+          onLoad={this.onLoad}
           currentRoomId={currentRoomId}
           rooms={rooms}
           setRooms={(rooms: Room[], currentRoomId: string) => {
@@ -49,18 +51,16 @@ export default class GameMenu extends Component<Props, State> {
     }
   }
 
+  restartGame = () => {
+    this.setState({
+      rooms: this.state.ogRooms
+    });
+  };
+
   renderConfigCreation(): JSX.Element {
     return (
       <div className="GameMenu">
-        <LoadButton
-          onLoad={rooms => {
-            this.setState({
-              rooms: rooms,
-              ogRooms: rooms,
-              hasConfig: true
-            });
-          }}
-        />
+        <LoadButton onLoad={this.onLoad} />
         <button className="GameMenu__create-button" onClick={this.onCreateConfig}>
           Create New Config
         </button>
@@ -75,6 +75,14 @@ export default class GameMenu extends Component<Props, State> {
       </div>
     );
   }
+
+  onLoad = (rooms: Room[]) => {
+    this.setState({
+      rooms: rooms,
+      ogRooms: rooms,
+      hasConfig: true
+    });
+  };
 
   onCreateConfig = () => {
     const rooms: Room[] = generateMaze();

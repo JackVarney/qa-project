@@ -1,0 +1,23 @@
+.IngameMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.IngameMenu__title {
+  color: #0e0e0e;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.IngameMenu__restart-button {
+  color: #fefefe;
+  background-color: #e91e63;
+  padding: 1rem;
+  border: 2px solid #fefefe;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.IngameMenu__restart-button:hover {
+  background-color: #880e4f;
+}
