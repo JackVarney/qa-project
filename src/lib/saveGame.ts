@@ -71,9 +71,8 @@ export function saveMaze(rooms: Room[]) {
       (acc, key) => {
         if (room[key] instanceof Passage) {
           const passage = room[key] as Passage;
-          const k = key as keyof Walls;
 
-          acc[k] = passage.id;
+          acc[key] = passage.id;
         }
 
         return acc;

@@ -73,12 +73,10 @@ export default class LoadButton extends Component<Props> {
         room.items = loadedRoom.items;
 
         directions.forEach(direction => {
-          const d = direction as keyof Walls;
-
-          if (loadedRoom[d] !== null) {
+          if (loadedRoom[direction] !== null) {
             const { savedPassage, passage } = passages.reduce(
               (acc, cur) => {
-                if (cur.passage.id === loadedRoom[d]) {
+                if (cur.passage.id === loadedRoom[direction]) {
                   acc = cur;
                 }
 
@@ -87,7 +85,7 @@ export default class LoadButton extends Component<Props> {
               {} as Passages
             );
 
-            room[d] = passage;
+            room[direction] = passage;
           }
         });
 
@@ -99,10 +97,8 @@ export default class LoadButton extends Component<Props> {
   assignLoadedRoomsToPassages(rooms: Room[], passages: Passages[]) {
     rooms.forEach(room => {
       directions.forEach(key => {
-        const d = key as keyof Walls;
-
-        if (room[d]) {
-          const passage = room[d] as Passage;
+        if (room[key]) {
+          const passage = room[key] as Passage;
 
           passages.forEach(({ savedPassage }) => {
             if (savedPassage.id === passage.id) {

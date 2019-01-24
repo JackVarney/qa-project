@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Room } from "../lib/room";
 import { generateMaze } from "../lib/generateMaze";
 import { saveMaze } from "../lib/saveGame";
+import { generateRandomNumber } from "../lib/utils";
 
 interface Props {
   onClick: (rooms: Room[]) => void;
@@ -18,6 +19,7 @@ export default class CreateConfigButton extends Component<Props> {
 
   onCreateConfig = () => {
     const { onClick } = this.props;
+
     const rooms: Room[] = generateMaze();
 
     if (window.confirm("Would you like to save the config?")) {

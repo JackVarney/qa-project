@@ -9,6 +9,7 @@ import { saveMaze } from "../lib/saveGame";
 import LoadButton from "../components/LoadButton";
 import "./GameMenu.css";
 import CreateConfigButton from "../components/CreateConfigButton";
+import { generateRandomNumber } from "../lib/utils";
 
 interface Props {}
 
@@ -79,6 +80,7 @@ export default class GameMenu extends Component<Props, State> {
     this.setState({
       rooms: rooms,
       ogRooms: rooms,
+      currentRoomId: this.getRandomRoom(rooms),
       hasConfig: true
     });
   };
@@ -87,7 +89,28 @@ export default class GameMenu extends Component<Props, State> {
     this.setState({
       hasConfig: true,
       ogRooms: rooms,
+      currentRoomId: this.getRandomRoom(rooms),
       rooms
     });
   };
+
+  getRandomRoom(rooms: Room[]): string {
+    var roomCouldBeExit = true;
+
+    do {
+      var randomRoom: Room = rooms[generateRandomNumber(0, rooms.length - 1)];
+
+      roomCouldBeExit = directions.reduce((passageIsExit, key) => {
+        if (passageIsExit) return true;
+
+        if (randomRoom[key] === null) {
+          return false;
+        } else {
+          return randomRoom[key]!.isExit;
+        }
+      }, false);
+    } while (roomCouldBeExit);
+
+    return randomRoom.id;
+  }
 }
