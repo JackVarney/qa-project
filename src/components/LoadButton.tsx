@@ -114,7 +114,7 @@ export default class LoadButton extends Component<Props> {
   instanciateItems(rooms: Room[]): Room[] {
     return rooms.map(room => {
       room.items = room.items.map(item => {
-        if (item.name === "Gold") {
+        if (item.name === "Gold" || item.name === "Coin") {
           const ogTreasure = item as Treasure;
           const t = new Treasure();
           t.value = ogTreasure.value;

@@ -4,9 +4,8 @@ import { generateRandomNumber } from "./utils";
 export class Treasure extends Item {
   value: number;
 
-  constructor() {
-    super("Gold");
-
-    this.value = generateRandomNumber(10, 1000);
+  constructor(name = "Gold", value = generateRandomNumber(10, 1000)) {
+    super(name);
+    this.value = value;
   }
 }

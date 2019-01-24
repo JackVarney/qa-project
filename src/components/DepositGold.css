@@ -1,0 +1,11 @@
+.DepositGold {
+  border: none;
+  color: #212121;
+  background-color: #ffc107;
+  padding: 0.4em;
+  cursor: pointer;
+}
+
+.DepositGold:hover {
+  background-color: #ffb300;
+}

@@ -34,4 +34,34 @@ export class Room {
 
     return items;
   }
+
+  cloneRoom(): Room {
+    const newRoom = new Room(this.id);
+
+    newRoom.east = this.east;
+    this.setPassage(newRoom.east, newRoom);
+
+    newRoom.south = this.south;
+    this.setPassage(newRoom.south, newRoom);
+
+    newRoom.west = this.west;
+    this.setPassage(newRoom.west, newRoom);
+
+    newRoom.north = this.north;
+    this.setPassage(newRoom.north, newRoom);
+
+    newRoom.items = [...this.items];
+
+    return newRoom;
+  }
+
+  private setPassage = (passage: Passage | null, newRoom: Room) => {
+    if (passage instanceof Passage) {
+      if (passage.entrance!.id === newRoom.id) {
+        passage.entrance = newRoom;
+      } else {
+        passage.exit = newRoom;
+      }
+    }
+  };
 }

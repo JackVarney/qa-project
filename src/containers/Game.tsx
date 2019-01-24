@@ -5,6 +5,7 @@ import GameInterface from "../components/GameInterface";
 import { Player } from "../types/player";
 import "./Game.css";
 import { Passage } from "../lib/passage";
+import { Treasure } from "../lib/treasure";
 
 interface Props {
   restartGame: () => void;
@@ -40,6 +41,7 @@ export default class Game extends Component<Props, State> {
       <div className="Game">
         <h2>Room: {currentRoom.id}</h2>
         <GameInterface
+          depositGold={this.depositCoin}
           restartGame={restartGame}
           onLoad={onLoad}
           player={player}
@@ -51,6 +53,27 @@ export default class Game extends Component<Props, State> {
       </div>
     );
   }
+
+  depositCoin = () => {
+    const { rooms, currentRoomId } = this.props;
+    const { player } = this.state;
+
+    if (player.wealth < 1) {
+      alert("No coins to deposit!");
+    } else {
+      const room: Room = rooms[this.getRoomIndexFromId(currentRoomId)].cloneRoom();
+
+      room.items.push(new Treasure("Coin", 1));
+
+      this.setRoom(room);
+      this.setState({
+        player: {
+          ...player,
+          wealth: player.wealth - 1
+        }
+      });
+    }
+  };
 
   getRoomIndexFromId(id: string): number {
     const { rooms } = this.props;

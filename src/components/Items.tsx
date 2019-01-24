@@ -53,32 +53,12 @@ export default class Items extends Component<Props> {
     return <div className="Items">{itemsToRender}</div>;
   }
 
-  setPassage = (passage: Passage | null, newRoom: Room) => {
-    if (passage instanceof Passage) {
-      if (passage.entrance!.id === newRoom.id) {
-        passage.entrance = newRoom;
-      } else {
-        passage.exit = newRoom;
-      }
-    }
-  };
-
   removeItem = (id: number, room: Room) => {
-    const newRoom = new Room(room.id);
-
-    newRoom.east = room.east;
-    this.setPassage(newRoom.east, newRoom);
-
-    newRoom.south = room.south;
-    this.setPassage(newRoom.south, newRoom);
-
-    newRoom.west = room.west;
-    this.setPassage(newRoom.west, newRoom);
-
-    newRoom.north = room.north;
-    this.setPassage(newRoom.north, newRoom);
+    const newRoom = room.cloneRoom();
 
     newRoom.items = room.items.filter((_, i) => i !== id);
+
+    console.log(newRoom.items);
 
     this.props.setRoom(newRoom);
   };

@@ -6,6 +6,7 @@ import { Player } from "../types/player";
 import "./GameInterface.css";
 import IngameMenu from "./IngameMenu";
 import GameCompletionModal from "./GameCompletionModal";
+import DepositGold from "./DepositGold";
 
 interface Props {
   room: Room;
@@ -15,6 +16,7 @@ interface Props {
   onLoad: (rooms: Room[]) => void;
   restartGame: () => void;
   onCreateConfig: (rooms: Room[]) => void;
+  depositGold: () => void;
 }
 
 interface State {
@@ -33,13 +35,16 @@ export default class GameInterface extends Component<Props, State> {
   }
 
   render() {
-    const { onCreateConfig, room, setRoom, alterPlayerGold, player, onLoad, restartGame } = this.props;
+    const { depositGold, onCreateConfig, room, setRoom, alterPlayerGold, player, onLoad, restartGame } = this.props;
     const { showMenu, showGameCompletionModal } = this.state;
 
     return (
       <div className="GameInterface">
         <div className="GameInterface__info">
-          <p className="GameInterface__player">Player Wealth: {player.wealth}</p>
+          <div className="GameInterface__player-info">
+            <p className="GameInterface__player">Player Wealth: {player.wealth}</p>
+            <DepositGold onDeposit={depositGold} />
+          </div>
           <button
             className="GameInterface__menu-button"
             onClick={() => {

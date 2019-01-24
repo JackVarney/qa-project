@@ -1,8 +1,14 @@
 .GameInterface {
 }
 
+.GameInterface__player-info {
+  display: flex;
+  flex-direction: column;
+}
+
 .GameInterface__player {
-  font-size: 2em;
+  font-size: 1em;
+  margin: 0 0 0.5em 0;
 }
 
 .GameInterface__menu-button {
