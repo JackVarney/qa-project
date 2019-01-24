@@ -4,3 +4,25 @@
 .GameInterface__player {
   font-size: 2em;
 }
+
+.GameInterface__menu-button {
+  background-color: #2196f3;
+  padding: 1em;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.GameInterface__menu-button:hover {
+  background-color: #1976d2;
+}
+
+.GameInterface__info {
+  margin-left: 10%;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

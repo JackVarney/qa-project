@@ -16,6 +16,7 @@
   border: 2px solid #fefefe;
   font-size: 1em;
   cursor: pointer;
+  margin-top: 1em;
 }
 
 .IngameMenu__restart-button:hover {

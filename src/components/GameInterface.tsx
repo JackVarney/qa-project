@@ -38,15 +38,19 @@ export default class GameInterface extends Component<Props, State> {
 
     return (
       <div className="GameInterface">
-        <button
-          onClick={() => {
-            this.setState({
-              showMenu: !showMenu
-            });
-          }}
-        >
-          Show Menu
-        </button>
+        <div className="GameInterface__info">
+          <p className="GameInterface__player">Player Wealth: {player.wealth}</p>
+          <button
+            className="GameInterface__menu-button"
+            onClick={() => {
+              this.setState({
+                showMenu: !showMenu
+              });
+            }}
+          >
+            Show Menu
+          </button>
+        </div>
         <IngameMenu
           restartGame={restartGame}
           onLoad={onLoad}
@@ -63,7 +67,6 @@ export default class GameInterface extends Component<Props, State> {
             this.setState({ showGameCompletionModal: true });
           }}
         />
-        <p className="GameInterface__player">Player Wealth: {player.wealth}</p>
         <GameCompletionModal
           score={player.wealth}
           show={showGameCompletionModal}
