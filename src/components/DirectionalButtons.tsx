@@ -7,6 +7,7 @@ import { Threat } from "../lib/threat";
 interface Props {
   room: Room;
   setRoom: (room: Room) => void;
+  onGameComplete: () => void;
 }
 
 interface ButtonConfig {
@@ -33,6 +34,7 @@ export default class DirectionalButtons extends Component<Props> {
   }
 
   createOnClick = (key: keyof Room) => () => {
+    const { onGameComplete } = this.props;
     const hasThreat: boolean = this.hasThreat();
 
     if (hasThreat) {
@@ -46,7 +48,7 @@ export default class DirectionalButtons extends Component<Props> {
         const passage = room[key] as Passage;
 
         if (passage.isExit) {
-          alert("game over");
+          onGameComplete();
         } else {
           setRoom(this.getRoomFromPassage(passage, room.id));
         }

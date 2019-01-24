@@ -5,6 +5,7 @@ import Items from "./Items";
 import { Player } from "../types/player";
 import "./GameInterface.css";
 import IngameMenu from "./IngameMenu";
+import GameCompletionModal from "./GameCompletionModal";
 
 interface Props {
   room: Room;
@@ -13,10 +14,12 @@ interface Props {
   player: Player;
   onLoad: (rooms: Room[]) => void;
   restartGame: () => void;
+  onCreateConfig: (rooms: Room[]) => void;
 }
 
 interface State {
   showMenu: boolean;
+  showGameCompletionModal: boolean;
 }
 
 export default class GameInterface extends Component<Props, State> {
@@ -24,13 +27,14 @@ export default class GameInterface extends Component<Props, State> {
     super(props);
 
     this.state = {
-      showMenu: false
+      showMenu: false,
+      showGameCompletionModal: false
     };
   }
 
   render() {
-    const { room, setRoom, alterPlayerGold, player, onLoad, restartGame } = this.props;
-    const { showMenu } = this.state;
+    const { onCreateConfig, room, setRoom, alterPlayerGold, player, onLoad, restartGame } = this.props;
+    const { showMenu, showGameCompletionModal } = this.state;
 
     return (
       <div className="GameInterface">
@@ -52,8 +56,25 @@ export default class GameInterface extends Component<Props, State> {
           }}
         />
         <Items room={room} setRoom={setRoom} alterPlayerGold={alterPlayerGold} />
-        <DirectionalButtons room={room} setRoom={setRoom} />
+        <DirectionalButtons
+          room={room}
+          setRoom={setRoom}
+          onGameComplete={() => {
+            this.setState({ showGameCompletionModal: true });
+          }}
+        />
         <p className="GameInterface__player">Player Wealth: {player.wealth}</p>
+        <GameCompletionModal
+          score={player.wealth}
+          show={showGameCompletionModal}
+          onClose={() => {
+            this.setState({
+              showGameCompletionModal: false
+            });
+          }}
+          onCreateConfig={onCreateConfig}
+          restartGame={restartGame}
+        />
       </div>
     );
   }

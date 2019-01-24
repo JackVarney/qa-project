@@ -8,6 +8,7 @@ import { Item } from "../lib/item";
 import { saveMaze } from "../lib/saveGame";
 import LoadButton from "../components/LoadButton";
 import "./GameMenu.css";
+import CreateConfigButton from "../components/CreateConfigButton";
 
 interface Props {}
 
@@ -40,8 +41,8 @@ export default class GameMenu extends Component<Props, State> {
           onLoad={this.onLoad}
           currentRoomId={currentRoomId}
           rooms={rooms}
+          onCreateConfig={this.onCreateConfig}
           setRooms={(rooms: Room[], currentRoomId: string) => {
-            console.log("set rooms", rooms);
             this.setState({ rooms, currentRoomId });
           }}
         />
@@ -61,9 +62,7 @@ export default class GameMenu extends Component<Props, State> {
     return (
       <div className="GameMenu">
         <LoadButton onLoad={this.onLoad} />
-        <button className="GameMenu__create-button" onClick={this.onCreateConfig}>
-          Create New Config
-        </button>
+        <CreateConfigButton onClick={this.onCreateConfig} />
         <button
           className="Test"
           onClick={() => {
@@ -84,13 +83,7 @@ export default class GameMenu extends Component<Props, State> {
     });
   };
 
-  onCreateConfig = () => {
-    const rooms: Room[] = generateMaze();
-
-    if (window.confirm("Would you like to save the config?")) {
-      saveMaze(rooms);
-    }
-
+  onCreateConfig = (rooms: Room[]) => {
     this.setState({
       hasConfig: true,
       ogRooms: rooms,

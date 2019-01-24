@@ -12,6 +12,7 @@ interface Props {
   rooms: Room[];
   setRooms: (rooms: Room[], currentRoomId: string) => void;
   currentRoomId: string;
+  onCreateConfig: (rooms: Room[]) => void;
 }
 
 interface State {
@@ -30,7 +31,7 @@ export default class Game extends Component<Props, State> {
   }
 
   render() {
-    const { currentRoomId, rooms, onLoad, restartGame } = this.props;
+    const { currentRoomId, rooms, onLoad, restartGame, onCreateConfig } = this.props;
     const { player } = this.state;
 
     const currentRoom = rooms[this.getRoomIndexFromId(currentRoomId)];
@@ -45,6 +46,7 @@ export default class Game extends Component<Props, State> {
           room={currentRoom}
           setRoom={this.setRoom}
           alterPlayerGold={this.alterPlayerGold}
+          onCreateConfig={onCreateConfig}
         />
       </div>
     );
