@@ -6,6 +6,7 @@ import { directions } from "../lib/directions";
 import "./LoadButton.css";
 import { Treasure } from "../lib/treasure";
 import { Threat } from "../lib/threat";
+import Validator from "validatorjs";
 
 type Passages = {
   savedPassage: SavedPassage;
@@ -37,11 +38,13 @@ export default class LoadButton extends Component<Props> {
       reader.onload = e => {
         // typescript doesnt recognize e.target.result
         // @ts-ignore
-        const loadedMaze: SavedMaze = JSON.parse(e.target.result);
+        const loadedMaze: SavedMaze | undefined = this.validateUpload(e.target.result);
 
-        const maze: Room[] = this.restoreMaze(loadedMaze);
+        if (loadedMaze !== undefined) {
+          const maze: Room[] = this.restoreMaze(loadedMaze);
 
-        this.props.onLoad(maze);
+          this.props.onLoad(maze);
+        }
       };
 
       reader.readAsText(file);
@@ -141,5 +144,62 @@ export default class LoadButton extends Component<Props> {
 
       return acc;
     });
+  }
+
+  validateUpload(upload: any): SavedMaze | void {
+    try {
+      const savedMaze: SavedMaze = JSON.parse(upload);
+
+      if (
+        new Validator(savedMaze, {
+          maze: {
+            rooms: ["array", "required"],
+            passages: ["array", "required"]
+          }
+        }).check()
+      ) {
+        const arePassagesValid: boolean = savedMaze.maze.passages.reduce((isValid, passage) => {
+          if (!isValid) return false;
+
+          return new Validator(passage, {
+            id: ["string", "required"],
+            isExit: ["boolean", "required"],
+            entrance: ["string", "required"],
+            exit: ["string", "required"]
+          }).check();
+        }, true);
+
+        if (arePassagesValid) {
+          const areRoomsValid: boolean = savedMaze.maze.rooms.reduce((isValid, room) => {
+            if (!isValid) return false;
+
+            return new Validator(room, {
+              id: ["string", "required"],
+              items: ["array"]
+            }).check();
+          }, true);
+
+          if (!areRoomsValid) {
+            this.saveErrorFile("File is JSON, but rooms are of invalid structure");
+          }
+        } else {
+          this.saveErrorFile("File is JSON, but passages are of invalid structure");
+        }
+      } else {
+        this.saveErrorFile("File is JSON, but has invalid structure");
+      }
+
+      return savedMaze;
+    } catch (e) {
+      this.saveErrorFile("Unable to parse file. Check file is JSON.");
+    }
+  }
+
+  saveErrorFile(error: string) {
+    const file = new Blob([error]);
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(file);
+    a.download = "maze-error.txt";
+    a.click();
   }
 }

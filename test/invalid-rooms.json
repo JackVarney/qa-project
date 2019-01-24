@@ -1,0 +1,204 @@
+{
+  "maze": {
+    "rooms": [
+      {
+        "id": 123123123123,
+        "items": "this should be an array!",
+        "north": null,
+        "east": "8",
+        "west": null,
+        "south": null
+      },
+      {
+        "id": "01",
+        "items": [
+          {
+            "name": "Frank",
+            "action": {
+              "name": "Use Spoon"
+            },
+            "wrongAction": {
+              "name": "Use Spork"
+            }
+          },
+          {
+            "name": "Gold",
+            "value": 304
+          }
+        ],
+        "north": null,
+        "east": "9",
+        "west": "8",
+        "south": null
+      },
+      {
+        "id": "02",
+        "items": [
+          {
+            "name": "Gold",
+            "value": 899
+          }
+        ],
+        "north": null,
+        "east": null,
+        "west": "9",
+        "south": "10"
+      },
+      {
+        "id": "10",
+        "items": [
+          {
+            "name": "Gold",
+            "value": 412
+          }
+        ],
+        "north": null,
+        "east": "14",
+        "west": null,
+        "south": "15"
+      },
+      {
+        "id": "11",
+        "items": [
+          {
+            "name": "Gold",
+            "value": 534
+          }
+        ],
+        "north": null,
+        "east": null,
+        "west": "14",
+        "south": "13"
+      },
+      {
+        "id": "12",
+        "items": [
+          {
+            "name": "Terry",
+            "action": {
+              "name": "Use Spork"
+            },
+            "wrongAction": {
+              "name": "Use Spoon"
+            }
+          },
+          {
+            "name": "Gold",
+            "value": 956
+          }
+        ],
+        "north": "10",
+        "east": null,
+        "west": null,
+        "south": "11"
+      },
+      {
+        "id": "20",
+        "items": [
+          {
+            "name": "Lizzy",
+            "action": {
+              "name": "Use Fork"
+            },
+            "wrongAction": {
+              "name": "Use Plate"
+            }
+          },
+          {
+            "name": "Gold",
+            "value": 506
+          }
+        ],
+        "north": "15",
+        "east": null,
+        "west": null,
+        "south": null
+      },
+      {
+        "id": "21",
+        "items": [
+          {
+            "name": "Gold",
+            "value": 277
+          }
+        ],
+        "north": "13",
+        "east": "12",
+        "west": null,
+        "south": null
+      },
+      {
+        "id": "22",
+        "items": [
+          {
+            "name": "Frank",
+            "action": {
+              "name": "Use Plate"
+            },
+            "wrongAction": {
+              "name": "Use Plate"
+            }
+          },
+          {
+            "name": "Gold",
+            "value": 890
+          }
+        ],
+        "north": "11",
+        "east": null,
+        "west": "12",
+        "south": null
+      }
+    ],
+    "passages": [
+      {
+        "id": "8",
+        "isExit": false,
+        "entrance": "00",
+        "exit": "01"
+      },
+      {
+        "id": "9",
+        "isExit": false,
+        "entrance": "01",
+        "exit": "02"
+      },
+      {
+        "id": "10",
+        "isExit": false,
+        "entrance": "02",
+        "exit": "12"
+      },
+      {
+        "id": "14",
+        "isExit": true,
+        "entrance": "11",
+        "exit": "10"
+      },
+      {
+        "id": "15",
+        "isExit": false,
+        "entrance": "10",
+        "exit": "20"
+      },
+      {
+        "id": "13",
+        "isExit": false,
+        "entrance": "21",
+        "exit": "11"
+      },
+      {
+        "id": "11",
+        "isExit": false,
+        "entrance": "12",
+        "exit": "22"
+      },
+      {
+        "id": "12",
+        "isExit": false,
+        "entrance": "22",
+        "exit": "21"
+      }
+    ]
+  }
+}

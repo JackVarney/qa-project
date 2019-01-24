@@ -67,7 +67,7 @@ export default class GameMenu extends Component<Props, State> {
         <button
           className="Test"
           onClick={() => {
-            this.saveConfig(this.state.rooms);
+            saveMaze(this.state.rooms);
           }}
         >
           TEST
@@ -87,14 +87,14 @@ export default class GameMenu extends Component<Props, State> {
   onCreateConfig = () => {
     const rooms: Room[] = generateMaze();
 
+    if (window.confirm("Would you like to save the config?")) {
+      saveMaze(rooms);
+    }
+
     this.setState({
       hasConfig: true,
       ogRooms: rooms,
       rooms
     });
-  };
-
-  saveConfig = (rooms: Room[]) => {
-    saveMaze(rooms);
   };
 }

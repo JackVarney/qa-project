@@ -5,15 +5,15 @@ import { Passage } from "./passage";
 import { Item } from "./item";
 import { SavedMaze, SavedRoom, Walls } from "../types/savedMaze";
 
+interface StoredPassage {
+  isExit: boolean;
+  entrance: string;
+  exit: string;
+  id: string;
+}
+
 export function saveMaze(rooms: Room[]) {
   rooms = generateMaze();
-
-  interface StoredPassage {
-    isExit: boolean;
-    entrance: string;
-    exit: string;
-    id: string;
-  }
 
   const passageSet: StoredPassage[] = rooms
     .map(
